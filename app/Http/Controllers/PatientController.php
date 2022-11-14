@@ -130,4 +130,69 @@ class PatientController extends Controller
 
         return $this->response(400, 'Something wrong');
     }
+
+    /**
+     * Display a listing of the resource by name
+     *
+     * @param string $name
+     * @return \Illiminate\Http\Response
+     */
+    public function search($name)
+    {
+        $searchedPatient = Patient::where('name', 'like', '%' . $name . '%')->get();
+
+        if ($searchedPatient->isEmpty()) {
+            return $this->response(404, 'Resource Not Found');
+        }
+
+        return $this->response(200, 'Get Searched Resource', $searchedPatient);
+    }
+
+    /**
+     * Display a listing of the resource with status positive
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function positive()
+    {
+        $positivePatient = Patient::where('status', 'positive')->get();
+
+        if ($positivePatient->isEmpty()) {
+            return $this->response(200, 'Resource Not Available Yet');
+        }
+
+        return $this->response(200, 'Get Positive Resource', $positivePatient, true);
+    }
+
+    /**
+     * Display a listing of the resource with status recovery
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function recovered()
+    {
+        $recoveredPatient = Patient::where('status', 'recovery')->get();
+
+        if ($recoveredPatient->isEmpty()) {
+            return $this->response(200, 'Resource Not Available Yet');
+        }
+
+        return $this->response(200, 'Get recovered Resource', $recoveredPatient, true);
+    }
+
+    /**
+     * Display a listing of the resource with status dead
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function dead()
+    {
+        $deadPatient = Patient::where('status', 'dead')->get();
+
+        if ($deadPatient->isEmpty()) {
+            return $this->response(200, 'Resource Not Available Yet');
+        }
+
+        return $this->response(200, 'Get dead Resource', $deadPatient, true);
+    }
 }

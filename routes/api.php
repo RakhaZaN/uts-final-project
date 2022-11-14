@@ -15,5 +15,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Membuat route patients dengan method apiResource
-Route::apiResource('/patients', PatientController::class);
+// Make route patients
+Route::group([
+    'as' => 'patients.',
+    'prefix' => 'patients'
+], function () {
+    // with method apiResource for index, store, show, update, and destroy
+    Route::apiResource('/', PatientController::class);
+    // Search by name
+    Route::get('/search/{name}', [PatientController::class, 'search']);
+    // Where status is positive
+    Route::get('/status/positive', [PatientController::class, 'positive']);
+    // Where status is recovery
+    Route::get('/status/recovered', [PatientController::class, 'recovered']);
+    // Where status is dead
+    Route::get('/status/dead', [PatientController::class, 'dead']);
+});

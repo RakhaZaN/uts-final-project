@@ -11,14 +11,18 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    public function response($status, $message, $data = null)
+    public function response($status, $message, $data = null, $total = false)
     {
         $array = [
             'status' => $status,
             'message' => $message
         ];
 
+
         if ($data != null) {
+            if ($total) {
+                $array['total'] = count($data);
+            }
             $array['data'] = $data;
         }
 
