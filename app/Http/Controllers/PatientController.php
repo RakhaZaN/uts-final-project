@@ -60,14 +60,8 @@ class PatientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Patient $patient)
     {
-        $patient = Patient::find($id);
-
-        if (!$patient) {
-            return $this->response(404, 'Resource not found');
-        }
-
         return $this->response(200, 'Get Detail Resource', $patient);
     }
 
@@ -78,14 +72,8 @@ class PatientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Patient $patient)
     {
-        $patient = Patient::find($id);
-
-        if (!$patient) {
-            return $this->response(404, 'Resource not found');
-        }
-
         $validated = Validator::make($request->all(), [
             'name' => 'nullable|string|max:50',
             'phone' => 'nullable|string|max:15|min:11',
@@ -114,14 +102,8 @@ class PatientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Patient $patient)
     {
-        $patient = Patient::find($id);
-
-        if (!$patient) {
-            return $this->response(404, 'Resource not found');
-        }
-
         $delete = $patient->delete();
 
         if ($delete) {
